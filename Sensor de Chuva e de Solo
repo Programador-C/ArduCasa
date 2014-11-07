@@ -1,3 +1,10 @@
+int sensorPresenca = 5;
+int presenca;
+int ledPresenca = 2;
+
+int sensorSom = A3;
+int som;
+
 int sensordechuva = 3;
 int umidadeSolo;
 int chuva;
@@ -6,20 +13,31 @@ int ledVER = 12;
 
 void setup(){
   Serial.begin(9600);
+  pinMode(sensorPresenca,INPUT);
   pinMode(sensordechuva,INPUT);
   pinMode(ledVER,OUTPUT);
+  pinMode(ledPresenca,OUTPUT);
 }
 
 void loop(){
+    som = digitalRead(sensorSom);
+    presenca = digitalRead(sensorPresenca);
     chuva = digitalRead(sensordechuva);
     umidadeSolo = analogRead(SensorUmidade);
     
+    Serial.print("Sensor de Som: ");
+    Serial.print(som);
+    Serial.print("\n");
+    Serial.print("Sensor de Presenca: ");
+    Serial.print(presenca);
+    Serial.print("\n");
     Serial.print("Sensor de Chuva: ");
     Serial.print(digitalRead(sensordechuva));
     Serial.print("\n");
       Serial.print("Sensor de solo: ");
       Serial.print(umidadeSolo);
       Serial.print("\n");
+      
   if (chuva == 0){
     if (umidadeSolo <= 300){
       Serial.print("Vou regar\n\n");
@@ -34,4 +52,13 @@ void loop(){
       Serial.print("Nao vou regar\n\n");
       digitalWrite(ledVER, LOW);
   }
+  
+  if (som > 1)  // Movimento detectado
+    digitalWrite(ledPresenca, HIGH);
+  else
+    digitalWrite(ledPresenca, LOW);
+    
+  delay(500);
+  
 }
+
