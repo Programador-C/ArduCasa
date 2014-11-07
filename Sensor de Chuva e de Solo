@@ -1,0 +1,37 @@
+int sensordechuva = 3;
+int umidadeSolo;
+int chuva;
+int SensorUmidade = A1;
+int ledVER = 12;
+
+void setup(){
+  Serial.begin(9600);
+  pinMode(sensordechuva,INPUT);
+  pinMode(ledVER,OUTPUT);
+}
+
+void loop(){
+    chuva = digitalRead(sensordechuva);
+    umidadeSolo = analogRead(SensorUmidade);
+    
+    Serial.print("Sensor de Chuva: ");
+    Serial.print(digitalRead(sensordechuva));
+    Serial.print("\n");
+      Serial.print("Sensor de solo: ");
+      Serial.print(umidadeSolo);
+      Serial.print("\n");
+  if (chuva == 0){
+    if (umidadeSolo <= 300){
+      Serial.print("Vou regar\n\n");
+      digitalWrite(ledVER, HIGH);
+    }
+    else{
+      Serial.print("Nao vou regar\n\n");
+      digitalWrite(ledVER, LOW);
+    }
+  }
+  else {
+      Serial.print("Nao vou regar\n\n");
+      digitalWrite(ledVER, LOW);
+  }
+}
